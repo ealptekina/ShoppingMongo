@@ -1,17 +1,32 @@
-﻿using ShoppingMongo.Dtos.ProductDos;
+﻿using AutoMapper;
+using MongoDB.Driver;
+using ShoppingMongo.Dtos.ProductDos;
+using ShoppingMongo.Entities;
+using ShoppingMongo.Settings;
 
 namespace ShoppingMongo.Services.ProductServices
 {
     public class ProductService : IProductService
     {
-        public Task CreateProductAsync(CreateProductDto createProductDto)
+        private readonly IMapper _mapper;
+        private readonly IMongoCollection<Product> _productColletion;
+        public ProductService(IMapper mapper, IDatabaseSettings _databaseSettings)
         {
-            throw new NotImplementedException();
+            var client = new MongoClient(_databaseSettings.ConnectionString);
+            var database = client.GetDatabase(_databaseSettings.DatabaseName);
+            _productColletion = database.GetCollection<Product>(_databaseSettings.ProductCollectionName);
+            _mapper = mapper;
         }
 
-        public Task DeleteProductAsync(string id)
+        public async Task CreateProductAsync(CreateProductDto createProductDto)
         {
-            throw new NotImplementedException();
+            var value = _mapper.Map<Product>(createProductDto);
+            await _productColletion.InsertOneAsync(value);
+        }
+
+        public async Task DeleteProductAsync(string id)
+        {
+            await _productColletion.DeleteOneAsync(x => x.ProductId == id);
         }
 
         public Task<List<ResultProductDto>> GetAllProductAsync()
@@ -24,9 +39,12 @@ namespace ShoppingMongo.Services.ProductServices
             throw new NotImplementedException();
         }
 
-        public Task UpdateProductAsync(UpdateProductDto updateProductDto)
+        public async Task UpdateProductAsync(UpdateProductDto updateProductDto)
         {
-            throw new NotImplementedException();
+            var value = _mapper.Map<Product>(updateProductDto);
+            await _productColletion.FindOneAndReplaceAsync(
+                x => x.ProductId == updateProductDto.ProductId,
+                value);
         }
     }
 }
