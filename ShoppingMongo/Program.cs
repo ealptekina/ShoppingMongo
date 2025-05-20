@@ -1,6 +1,42 @@
+using Microsoft.Extensions.Options;
+using ShoppingMongo.Services.CategoryServices;
+using ShoppingMongo.Services.CsutomerServices;
+using ShoppingMongo.Services.ProductServices;
+using ShoppingMongo.Settings;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
+
+// Uygulamadaki servis katmanlarýnýn baðýmlýlýklarýný belirliyoruz.
+// Scoped olarak tanýmlandýklarý için her HTTP isteði baþýna bir nesne örneði oluþturulur.
+// Bu yapý, Entity Framework gibi veritabaný iþlemlerinde veri tutarlýlýðý saðlar.
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
+
+// AutoMapper konfigürasyonlarýný bu projedeki (çalýþan derleme içindeki) tüm profillerden otomatik olarak yükler.
+// Böylece manuel olarak her mapping profilini tek tek belirtmeye gerek kalmaz.
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+// "DatabaseSettingsKey" adlý yapýlandýrma bölümünü, DatabaseSettings sýnýfýna map eder.
+// Böylece uygulama genelinde IOptions<DatabaseSettings> üzerinden tip güvenli þekilde eriþilebilir.
+//appsettings.json içindeki bölüm adý "DatabaseSettingsKey" olmalý.
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettingsKey"));
+
+
+// "DatabaseSettings" sýnýfý, "IDatabaseSettings" arayüzünü implemente ediyorsa,
+// bu satýr, IOptions<DatabaseSettings> üzerinden yapýlandýrmayý okuyup IDatabaseSettings türüyle servis olarak sunar.
+builder.Services.AddScoped<IDatabaseSettings>(sp =>
+{
+    return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+});
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MongoDB.Driver;
+using ShoppingMongo.Dtos.CategoryDtos;
 using ShoppingMongo.Dtos.CustomerDtos;
 using ShoppingMongo.Entities;
 using ShoppingMongo.Settings;
@@ -30,14 +31,16 @@ namespace ShoppingMongo.Services.CsutomerServices
             await _customerCollection.DeleteOneAsync(customerId);
         }
 
-        public Task<List<ResultCustomerDto>> GetAllCustomerAsync()
+        public async Task<List<ResultCustomerDto>> GetAllCustomerAsync()
         {
-            throw new NotImplementedException();
+            var values = await _customerCollection.Find(x => true).ToListAsync();
+            return _mapper.Map<List<ResultCustomerDto>>(values);
         }
 
-        public Task<GetCustomerByIdDto> GetCustomerByIdAsync(string id)
+        public async Task<GetCustomerByIdDto> GetCustomerByIdAsync(string customerId)
         {
-            throw new NotImplementedException();
+            var value = await _customerCollection.Find(x => x.CustomerId == customerId).FirstOrDefaultAsync();
+            return _mapper.Map<GetCustomerByIdDto>(value);
         }
 
         public async Task UpdateCustomerAsync(UpdateCustomerDto updateCustomerDto)

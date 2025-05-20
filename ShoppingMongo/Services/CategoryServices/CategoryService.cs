@@ -47,15 +47,26 @@ namespace ShoppingMongo.Services.CategoryServices
             await _categoryCollection.DeleteOneAsync(id);
         }
 
-        public Task<List<ResultCategoryDto>> GetAllCategoryAsync()
+        // Tüm kategorileri veritabanından asenkron olarak getirir ve DTO listesine dönüştürür
+        public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
         {
-            throw new NotImplementedException();
+            // Kategori koleksiyonundaki tüm verileri getirir
+            var values = await _categoryCollection.Find(x => true).ToListAsync();
+
+            // Veritabanından alınan Category nesnelerini ResultCategoryDto türüne dönüştürerek döner
+            return _mapper.Map<List<ResultCategoryDto>>(values);
         }
 
-        public Task<GetCategoryByIdDto> GetCategoryByIdAsync(string id)
+        // Belirtilen ID'ye sahip kategoriyi asenkron olarak getirir
+        public async Task<GetCategoryByIdDto> GetCategoryByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            // Veritabanında CategoryId alanı verilen id ile eşleşen ilk kaydı bulur
+            var value = await _categoryCollection.Find(x => x.CategoryId == id).FirstOrDefaultAsync();
+
+            // Bulunan entity'yi DTO'ya dönüştürerek döndürür
+            return _mapper.Map<GetCategoryByIdDto>(value);
         }
+
 
         public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
         {
