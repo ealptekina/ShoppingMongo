@@ -44,7 +44,7 @@ namespace ShoppingMongo.Services.CategoryServices
         {
             // MongoDB koleksiyonunda CategoryId'si verilen id'ye eşit olan dökümanı bulur ve siler.
             // Silme işlemi asenkron olarak gerçekleştirilir.
-            await _categoryCollection.DeleteOneAsync(id);
+            await _categoryCollection.DeleteOneAsync(x => x.CategoryId == id);
         }
 
         // Tüm kategorileri veritabanından asenkron olarak getirir ve DTO listesine dönüştürür

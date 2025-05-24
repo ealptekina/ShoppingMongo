@@ -1,0 +1,59 @@
+﻿@model List<ShoppingMongo.Dtos.ProductDos.ResultProductDto>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Ürün Listesi</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Ürün Listesi</h2>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Ürün Adı</th>
+                    <th>Fiyat</th>
+                    <th>Stok</th>
+                    <th>Durum</th>
+                    <th>Görsel</th>
+                    <th>Güncelle</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductId</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProductPrice ₺</td>
+                        <td>@item.StockCount</td>
+                        <td>
+                            @(item.Status ? "Aktif" : "Pasif")
+                        </td>
+                        <td>
+                            <img src="@item.ImageUrl" alt="Görsel" width="50" height="50" />
+                        </td>
+                        <td>
+                            <a href="/Products/UpdateProduct/@item.ProductId" class="btn btn-warning btn-sm">Güncelle</a>
+                        </td>
+                        <td>
+                            <a href="/Products/DeleteProduct/@item.ProductId" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <a href="/Products/CreateProduct" class="btn btn-success mt-3">+ Yeni Ürün Ekle</a>
+    </div>
+</body>
+</html>
