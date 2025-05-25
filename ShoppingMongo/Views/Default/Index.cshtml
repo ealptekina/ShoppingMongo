@@ -1,0 +1,34 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+@await Component.InvokeAsync("_DefaultHeadComponentPartial")
+<body class="animsition">
+
+	<!-- Header -->
+	@await Component.InvokeAsync("_DefaultSidebarComponentPartial")
+
+
+	<!-- Slider -->
+	@await Component.InvokeAsync("_DefaultSliderComponentPartial")
+	<!-- Banner -->
+	@await Component.InvokeAsync("_DefaultCategoryComponentPartial")
+
+	<!-- Product -->
+	@await Component.InvokeAsync("_DefaultProductComponentPartial")
+
+	<!-- Footer -->
+	@await Component.InvokeAsync("_DefaultFooterComponentPartial")
+
+	<!-- Back to top -->
+	@await Component.InvokeAsync("_DefaultBackToTopComponentPartial")
+	<!-- Modal1 -->
+	@await Component.InvokeAsync("_DefaultModalComponentPartial")
+
+	@await Component.InvokeAsync("_DefaultScriptComponentPartial")
+
+</body>
+</html>

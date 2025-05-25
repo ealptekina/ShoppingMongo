@@ -1,7 +1,9 @@
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using ShoppingMongo.Services.CategoryServices;
 using ShoppingMongo.Services.CsutomerServices;
 using ShoppingMongo.Services.ProductServices;
+using ShoppingMongo.Services.SliderService;
 using ShoppingMongo.Settings;
 using System.Reflection;
 
@@ -17,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ISliderService, SliderService>();
 
 
 // AutoMapper konfigürasyonlarýný bu projedeki (çalýþan derleme içindeki) tüm profillerden otomatik olarak yükler.

@@ -1,55 +1,57 @@
 ﻿@model ShoppingMongo.Dtos.ProductDos.CreateProductDto
+
 @{
-    Layout = null;
+    ViewData["Title"] = "Ürün Ekle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Yeni Ürün Ekle</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Yeni Ürün Ekle</h2>
+<div class="container mt-5">
+    <h2>Yeni Ürün Ekle</h2>
 
-        <form asp-action="CreateProduct" method="post">
-            <div class="form-group">
-                <label>Ürün Adı</label>
-                <input asp-for="ProductName" class="form-control" />
-            </div>
+    <form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+        <div class="form-group mb-3">
+            <label>Ürün Adı</label>
+            <input asp-for="ProductName" class="form-control" />
+        </div>
 
-            <div class="form-group">
-                <label>Fiyat</label>
-                <input asp-for="ProductPrice" class="form-control" />
-            </div>
+        <div class="form-group mb-3">
+            <label>Fiyat</label>
+            <input asp-for="ProductPrice" class="form-control" />
+        </div>
 
-            <div class="form-group">
-                <label>Stok Adedi</label>
-                <input asp-for="StockCount" class="form-control" />
-            </div>
+        <div class="form-group mb-3">
+            <label>Stok Adedi</label>
+            <input asp-for="StockCount" class="form-control" />
+        </div>
 
-            <div class="form-group">
-                <label>Görsel URL</label>
-                <input asp-for="ImageUrl" class="form-control" />
-            </div>
+        <div class="form-group mb-3">
+            <label>Görseller</label>
+            <input asp-for="ImageFiles" type="file" class="form-control" multiple />
+        </div>
 
-            <div class="form-group">
-                <label>Durum</label>
-                <input asp-for="Status" type="checkbox" />
-            </div>
+        <div class="form-group mb-3">
+            <label>Kategori</label>
+            @Html.DropDownListFor(model => model.CategoryId, (List<SelectListItem>)ViewBag.v, "Kategori Seçiniz", new { @class = "form-control" })
+        </div>
 
-            <div class="form-group">
-                <label>Kategori</label>
-                @Html.DropDownListFor(model => model.CategoryId, (List<SelectListItem>)ViewBag.v, "Kategori Seçiniz", new { @class = "form-control" })
-            </div>
+        <div class="form-group mb-3">
+            <label>Beden Seçenekleri</label>
+            <input asp-for="Size" class="form-control" placeholder="Örn: S,M,L,XL" />
+            <small class="form-text text-muted">Virgülle ayırarak birden fazla beden girebilirsiniz.</small>
+        </div>
 
-            <button type="submit" class="btn btn-success mt-3">Ürünü Kaydet</button>
-        </form>
-    </div>
+        <div class="form-group mb-3">
+            <label>Renk Seçenekleri</label>
+            <input asp-for="Color" class="form-control" placeholder="Örn: Kırmızı,Mavi,Siyah" />
+            <small class="form-text text-muted">Virgülle ayırarak birden fazla renk girebilirsiniz.</small>
+        </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+        <div class="form-group form-check mb-3">
+            <input asp-for="Status" class="form-check-input" type="checkbox" />
+            <label class="form-check-label" for="Status">Aktif mi?</label>
+        </div>
+
+        <button type="submit" class="btn btn-success">Ürünü Kaydet</button>
+
+    </form>
+</div>

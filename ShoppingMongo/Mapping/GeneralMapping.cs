@@ -2,6 +2,7 @@
 using ShoppingMongo.Dtos.CategoryDtos;
 using ShoppingMongo.Dtos.CustomerDtos;
 using ShoppingMongo.Dtos.ProductDos;
+using ShoppingMongo.Dtos.SliderDtos;
 using ShoppingMongo.Entities;
 
 namespace ShoppingMongo.Mapping
@@ -36,6 +37,12 @@ namespace ShoppingMongo.Mapping
             CreateMap<Product, ResultProductDto>().ReverseMap();
             CreateMap<Product, GetProductByIdDto>().ReverseMap();
             CreateMap<Product, UpdateProductDto>().ReverseMap();
+
+            // Slider mapping
+            CreateMap<Slider, CreateSliderDto>().ReverseMap();
+            CreateMap<Slider, ResultSliderDto>().ReverseMap();
+            CreateMap<Slider, GetSliderByIdDto>().ReverseMap();
+            CreateMap<Slider, UpdateSliderDto>().ReverseMap();
         }
     }
 }

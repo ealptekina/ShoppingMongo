@@ -1,59 +1,100 @@
 ﻿@model List<ShoppingMongo.Dtos.ProductDos.ResultProductDto>
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Ürün Listesi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Ürün Listesi</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Ürün Listesi</h2>
+<div class="container mt-5">
+    <h2 class="mb-4">Ürün Listesi</h2>
 
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Ürün Adı</th>
+                <th>Kategori</th> <!-- Kategori adı -->
+                <th>Fiyat</th>
+                <th>Stok</th>
+                <th>Durum</th>
+                <th>Görsel</th>
+                <th>Güncelle</th>
+                <th>Sil</th>
+                <th>Detay</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>#</th>
-                    <th>Ürün Adı</th>
-                    <th>Fiyat</th>
-                    <th>Stok</th>
-                    <th>Durum</th>
-                    <th>Görsel</th>
-                    <th>Güncelle</th>
-                    <th>Sil</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.ProductId</td>
-                        <td>@item.ProductName</td>
-                        <td>@item.ProductPrice ₺</td>
-                        <td>@item.StockCount</td>
-                        <td>
-                            @(item.Status ? "Aktif" : "Pasif")
-                        </td>
-                        <td>
-                            <img src="@item.ImageUrl" alt="Görsel" width="50" height="50" />
-                        </td>
-                        <td>
-                            <a href="/Products/UpdateProduct/@item.ProductId" class="btn btn-warning btn-sm">Güncelle</a>
-                        </td>
-                        <td>
-                            <a href="/Products/DeleteProduct/@item.ProductId" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+                    <td>@item.ProductId</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.CategoryName</td>
+                    <td>@item.ProductPrice ₺</td>
+                    <td>@item.StockCount</td>
+                    <td>@(item.Status ? "Aktif" : "Pasif")</td>
+                    <td>
+                        @if (item.ImageUrls != null && item.ImageUrls.Any())
+                        {
+                            var carouselId = "carousel_" + item.ProductId;
 
-        <a href="/Products/CreateProduct" class="btn btn-success mt-3">+ Yeni Ürün Ekle</a>
-    </div>
-</body>
-</html>
+                            <div id="@carouselId" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500" style="width:150px;">
+
+                                <div class="carousel-inner">
+                                    @for (int i = 0; i < item.ImageUrls.Count; i++)
+                                    {
+                                        var activeClass = i == 0 ? "active" : "";
+                                        <div class="carousel-item @activeClass">
+                                            <img src="@item.ImageUrls[i]" class="d-block w-100" alt="Ürün Görseli" style="height:150px; object-fit: contain;" />
+                                        </div>
+                                    }
+                                </div>
+
+                                @if (item.ImageUrls.Count > 1)
+                                {
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Önceki</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Sonraki</span>
+                                    </button>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <span>Görsel yok</span>
+                        }
+                    </td>
+
+
+
+
+
+                    <td>
+                        <a href="/Products/UpdateProduct/@item.ProductId" class="btn btn-warning btn-sm">Güncelle</a>
+                    </td>
+                    <td>
+                        <a href="/Products/DeleteProduct/@item.ProductId" class="btn btn-danger btn-sm" onclick="return confirm('Silmek istediğinize emin misiniz?')">Sil</a>
+                    </td>
+                    <td>
+                        <a href="/Products/DetailProduct/@item.ProductId" class="btn btn-info btn-sm">Detay</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <a href="/Products/CreateProduct" class="btn btn-success mt-3">+ Yeni Ürün Ekle</a>
+</div>
+<script>
+    document.querySelectorAll('.carousel').forEach(carouselEl => {
+        new bootstrap.Carousel(carouselEl, {
+            interval: 1500, // Otomatik geçiş süresi
+            ride: 'carousel'
+        });
+    });
+</script>
