@@ -7,7 +7,9 @@
 
 <div class="container mt-5">
     <h2 class="mb-4">Ürün Listesi</h2>
-
+    <div class="mb-3">
+        <a href="/Products/CreateProduct" class="btn btn-success mt-3">+ Yeni Ürün Ekle</a>
+    </div>
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
             <tr>
@@ -24,10 +26,13 @@
             </tr>
         </thead>
         <tbody>
+            @{
+                int rowNumber = 1;
+            }
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.ProductId</td>
+                    <td>@rowNumber</td>  <!-- Sıra numarası -->
                     <td>@item.ProductName</td>
                     <td>@item.CategoryName</td>
                     <td>@item.ProductPrice ₺</td>
@@ -39,7 +44,6 @@
                             var carouselId = "carousel_" + item.ProductId;
 
                             <div id="@carouselId" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500" style="width:150px;">
-
                                 <div class="carousel-inner">
                                     @for (int i = 0; i < item.ImageUrls.Count; i++)
                                     {
@@ -49,7 +53,6 @@
                                         </div>
                                     }
                                 </div>
-
                                 @if (item.ImageUrls.Count > 1)
                                 {
                                     <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
@@ -68,11 +71,6 @@
                             <span>Görsel yok</span>
                         }
                     </td>
-
-
-
-
-
                     <td>
                         <a href="/Products/UpdateProduct/@item.ProductId" class="btn btn-warning btn-sm">Güncelle</a>
                     </td>
@@ -83,12 +81,15 @@
                         <a href="/Products/DetailProduct/@item.ProductId" class="btn btn-info btn-sm">Detay</a>
                     </td>
                 </tr>
+                rowNumber++;
+                  <!-- sayaç arttır -->
             }
         </tbody>
 
+
     </table>
 
-    <a href="/Products/CreateProduct" class="btn btn-success mt-3">+ Yeni Ürün Ekle</a>
+   
 </div>
 <script>
     document.querySelectorAll('.carousel').forEach(carouselEl => {
