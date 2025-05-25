@@ -68,17 +68,36 @@ namespace ShoppingMongo.Services.CategoryServices
         }
 
 
-        public async Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto)
+        public async Task<bool> UpdateCategoryAsync(GetCategoryByIdDto dto, IFormFile imageFile)
         {
-            // Güncellenmek istenen veriyi taşıyan DTO nesnesini Category entity'sine dönüştürüyoruz.
-            // Bu dönüşüm AutoMapper ile yapılır.
-            var value = _mapper.Map<Category>(updateCategoryDto);
+            var category = await _categoryCollection.Find(x => x.CategoryId == dto.CategoryId).FirstOrDefaultAsync();
+            if (category == null) return false;
 
-            // MongoDB'de CategoryId'si DTO içindeki CategoryId ile eşleşen dökümanı bulur
-            // ve yerine bu yeni Category nesnesini koyar (güncelleme işlemi).
-            await _categoryCollection.FindOneAndReplaceAsync(
-                x => x.CategoryId == updateCategoryDto.CategoryId,
-                value);
+            // Görsel varsa
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var extension = Path.GetExtension(imageFile.FileName);
+                var newImageName = $"{Guid.NewGuid()}{extension}";
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "categoryimages", newImageName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                category.ImagePath = "/categoryimages/" + newImageName;
+            }
+
+            category.CategoryName = dto.CategoryName;
+            category.Description = dto.Description;
+
+            var result = await _categoryCollection.ReplaceOneAsync(x => x.CategoryId == category.CategoryId, category);
+            return result.IsAcknowledged && result.ModifiedCount > 0;
         }
+
+
+
+
+
     }
 }

@@ -15,10 +15,12 @@ namespace ShoppingMongo.Entities
         /// [BsonRepresentation(BsonType.ObjectId)] bu alanın string olarak tutulmasına rağmen
         /// MongoDB'de ObjectId olarak saklanmasını sağlar.
         /// </summary>
-        
+
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string CategoryId { get; set; }
         public string CategoryName { get; set; }
+        public string Description { get; set; }
+        public string ImagePath { get; set; }
     }
 }

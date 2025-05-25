@@ -26,7 +26,8 @@ namespace ShoppingMongo.Services.CategoryServices
         /// Var olan bir kategoriyi günceller.
         /// </summary>
         /// <param name="updateCategoryDto">Güncellenecek kategori bilgileri.</param>
-        Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto);
+        Task<bool> UpdateCategoryAsync(GetCategoryByIdDto dto, IFormFile imageFile);
+
 
         /// <summary>
         /// Belirtilen ID'ye sahip kategoriyi siler.
