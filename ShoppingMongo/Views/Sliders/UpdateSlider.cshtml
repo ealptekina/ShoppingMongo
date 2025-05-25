@@ -1,8 +1,64 @@
-﻿
+﻿@model ShoppingMongo.Dtos.SliderDtos.UpdateSliderDto
+
 @{
-    ViewData["Title"] = "UpdateSlider";
+    ViewData["Title"] = "Slider Güncelle";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-<h1>UpdateSlider</h1>
+<h2 class="my-4">Slider Güncelle</h2>
 
+<form asp-action="UpdateSlider" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="SliderId" />
+    <input type="hidden" asp-for="ExistingImagePath" />
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Başlık</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SubTitle" class="form-label">Alt Başlık</label>
+        <input asp-for="SubTitle" class="form-control" />
+        <span asp-validation-for="SubTitle" class="text-danger"></span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+    {
+        <div class="mb-3">
+            <label class="form-label">Mevcut Görsel</label><br />
+            <img src="/sliderimages/@Model.ExistingImagePath" width="200" class="mb-2 border rounded" />
+        </div>
+    }
+
+    <div class="mb-3">
+        <label for="ImageFile">Yeni Görsel (İsteğe Bağlı)</label>
+        <input type="file" name="ImageFile" id="ImageFile" class="form-control" />
+        <small>Yeni görsel yüklemek istemiyorsanız boş bırakabilirsiniz.</small>
+    </div>
+
+    <img id="newImagePreview" src="#" style="max-width: 300px; display: none;" class="mt-2 border rounded" />
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Güncelle</button>
+        <a asp-action="SliderList" class="btn btn-secondary ms-2">Vazgeç</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('newImagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+}

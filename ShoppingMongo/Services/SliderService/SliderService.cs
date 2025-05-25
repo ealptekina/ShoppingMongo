@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Humanizer;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using ShoppingMongo.Dtos.ProductDos;
 using ShoppingMongo.Dtos.SliderDtos;
@@ -12,6 +14,7 @@ namespace ShoppingMongo.Services.SliderService
     {
         private readonly IMapper _mapper;
         private readonly IMongoCollection<Slider> _sliderCollection;
+
         public SliderService(IMapper mapper, IDatabaseSettings _databaseSettings)
         {
             _mapper = mapper;
@@ -46,12 +49,12 @@ namespace ShoppingMongo.Services.SliderService
             return _mapper.Map<GetSliderByIdDto>(value);
         }
 
-        public async Task UpdateSliderAsync(UpdateSliderDto updateSliderDto)
+        public async Task<bool> UpdateSliderAsync(string sliderId, UpdateDefinition<Slider> update)
         {
-            var value = _mapper.Map<Slider>(updateSliderDto);
-            await _sliderCollection.FindOneAndReplaceAsync(
-                x => x.SliderId == updateSliderDto.SliderId,
-                value);
+            var filter = Builders<Slider>.Filter.Eq(s => s.SliderId, sliderId);
+            var result = await _sliderCollection.UpdateOneAsync(filter, update);
+            return result.ModifiedCount > 0;
         }
+
     }
 }

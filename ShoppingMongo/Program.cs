@@ -1,5 +1,6 @@
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using ShoppingMongo.Services.CategoryServices;
 using ShoppingMongo.Services.CsutomerServices;
 using ShoppingMongo.Services.ProductServices;
@@ -38,7 +39,6 @@ builder.Services.AddScoped<IDatabaseSettings>(sp =>
 {
     return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
 });
-
 
 builder.Services.AddControllersWithViews();
 

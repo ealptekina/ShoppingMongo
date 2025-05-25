@@ -1,5 +1,7 @@
-﻿using ShoppingMongo.Dtos.CustomerDtos;
+﻿using MongoDB.Driver;
+using ShoppingMongo.Dtos.CustomerDtos;
 using ShoppingMongo.Dtos.SliderDtos;
+using ShoppingMongo.Entities;
 
 namespace ShoppingMongo.Services.SliderService
 {
@@ -7,7 +9,7 @@ namespace ShoppingMongo.Services.SliderService
     {
         Task<List<ResultSliderDto>> GetAllSliderAsync();
         Task CreateSliderAsync(CreateSliderDto createSliderDto);
-        Task UpdateSliderAsync(UpdateSliderDto updateSliderDto);
+        Task<bool> UpdateSliderAsync(string sliderId, UpdateDefinition<Slider> update);
         Task DeleteSliderAsync(string id);
         Task<GetSliderByIdDto> GetSliderByIdAsync(string id);
     }

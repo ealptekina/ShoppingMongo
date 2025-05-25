@@ -1,8 +1,55 @@
-﻿
+﻿@model ShoppingMongo.Dtos.SliderDtos.CreateSliderDto
 @{
-    ViewData["Title"] = "CreateSlider";
+    ViewData["Title"] = "Slider Oluştur";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
-<h1>CreateSlider</h1>
+<div class="container mt-5">
+    <h2 class="mb-4">Yeni Slider Oluştur</h2>
 
+    <form asp-action="CreateSlider" asp-controller="Sliders" method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label asp-for="Title" class="form-label">Başlık</label>
+                <input asp-for="Title" class="form-control" placeholder="Slider başlığı giriniz" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="SubTitle" class="form-label">Alt Başlık</label>
+                <input asp-for="SubTitle" class="form-control" placeholder="Alt başlık giriniz" />
+                <span asp-validation-for="SubTitle" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ImageFile" class="form-label">Görsel Yükle</label>
+            <input asp-for="ImageFile" type="file" class="form-control" />
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
+            <img id="preview" src="#" alt="Seçilen görsel burada gösterilir" style="max-width: 300px; display:none;" class="mt-3" />
+        </div>
+
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success">Kaydet</button>
+            <a asp-action="SliderList" class="btn btn-secondary ms-2">İptal</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.querySelector('input[type="file"]').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const img = document.getElementById('preview');
+                    img.src = event.target.result;
+                    img.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}
