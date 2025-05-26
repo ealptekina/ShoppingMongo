@@ -101,6 +101,11 @@ namespace ShoppingMongo.Services.CategoryServices
             return await _categoryCollection.Find(_ => true).ToListAsync();
         }
 
+        public async Task<Category> GetCategoryByNameAsync(string categoryName)
+        {
+            var filter = Builders<Category>.Filter.Eq(c => c.CategoryName, categoryName);
+            return await _categoryCollection.Find(filter).FirstOrDefaultAsync();
+        }
 
     }
 }

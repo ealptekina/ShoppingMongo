@@ -1,4 +1,5 @@
 ﻿using ShoppingMongo.Dtos.ProductDos;
+using ShoppingMongo.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,5 +41,7 @@ namespace ShoppingMongo.Services.ProductServices
         /// <param name="id">Getirilecek ürünün ID'si.</param>
         /// <returns>Ürün detaylarını içeren DTO.</returns>
         Task<GetProductByIdDto> GetProductByIdAsync(string id);
+        Task<List<ResultProductDto>> GetProductsByCategoryNameAsync(string categoryName);
+        Task<List<ResultProductDto>> GetAllAsync();
     }
 }

@@ -51,6 +51,7 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 
 builder.Services.Configure<MailSetting>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddScoped<EmailSenderService>();
+builder.Services.AddHttpContextAccessor(); 
 
 builder.Services.AddControllersWithViews();
 

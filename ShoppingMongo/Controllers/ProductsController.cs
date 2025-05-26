@@ -1,11 +1,8 @@
-﻿using Humanizer;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ShoppingMongo.Dtos.CategoryDtos;
 using ShoppingMongo.Dtos.ProductDos;
 using ShoppingMongo.Services.CategoryServices;
 using ShoppingMongo.Services.ProductServices;
-using System.Threading.Tasks;
 
 namespace ShoppingMongo.Controllers
 {

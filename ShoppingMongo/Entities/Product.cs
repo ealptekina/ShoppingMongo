@@ -21,5 +21,6 @@ namespace ShoppingMongo.Entities
         public string CategoryId { get; set; }
         public string Size { get; set; }
         public string Color { get; set; }
+        public string CategoryName { get; set; } // sadece View için
     }
 }
