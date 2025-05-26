@@ -1,4 +1,5 @@
 ﻿using ShoppingMongo.Dtos.CategoryDtos;
+using ShoppingMongo.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -41,5 +42,7 @@ namespace ShoppingMongo.Services.CategoryServices
         /// <param name="id">Getirilecek kategorinin ID değeri.</param>
         /// <returns>Belirli bir kategori DTO’su.</returns>
         Task<GetCategoryByIdDto> GetCategoryByIdAsync(string id);
+
+        Task<List<Category>> GetAllAsync();
     }
 }

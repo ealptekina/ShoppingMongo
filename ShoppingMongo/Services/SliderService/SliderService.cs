@@ -56,5 +56,10 @@ namespace ShoppingMongo.Services.SliderService
             return result.ModifiedCount > 0;
         }
 
+        public List<Slider> GetSliders()
+        {
+            return _sliderCollection.Find(_ => true).ToList();
+        }
+
     }
 }

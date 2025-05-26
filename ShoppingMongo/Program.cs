@@ -22,7 +22,6 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ISliderService, SliderService>();
 
-
 // AutoMapper konfigürasyonlarýný bu projedeki (çalýþan derleme içindeki) tüm profillerden otomatik olarak yükler.
 // Böylece manuel olarak her mapping profilini tek tek belirtmeye gerek kalmaz.
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -39,6 +38,14 @@ builder.Services.AddScoped<IDatabaseSettings>(sp =>
 {
     return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
 });
+
+builder.Services.AddSingleton<IMongoClient>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetSection("DatabaseSettingsKey:ConnectionString").Value;
+    return new MongoClient(connectionString);
+});
+
 
 builder.Services.AddControllersWithViews();
 

@@ -96,7 +96,10 @@ namespace ShoppingMongo.Services.CategoryServices
         }
 
 
-
+        public async Task<List<Category>> GetAllAsync()
+        {
+            return await _categoryCollection.Find(_ => true).ToListAsync();
+        }
 
 
     }

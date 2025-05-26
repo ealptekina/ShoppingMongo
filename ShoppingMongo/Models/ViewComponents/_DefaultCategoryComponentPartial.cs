@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ShoppingMongo.Services.CategoryServices;
 
 namespace ShoppingMongo.Models.ViewComponents
 {
-    public class _DefaultCategoryComponentPartial:ViewComponent
+    public class _DefaultCategoryComponentPartial : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        private readonly ICategoryService _categoryService;
+
+        public _DefaultCategoryComponentPartial(ICategoryService categoryService)
         {
-            return View();
+            _categoryService = categoryService;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync()
+        {
+            var categories = await _categoryService.GetAllAsync();
+            return View(categories);
         }
     }
 }
