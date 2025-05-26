@@ -1,6 +1,9 @@
+using MailKit;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using ShoppingMongo.Entities;
+using ShoppingMongo.Services;
 using ShoppingMongo.Services.CategoryServices;
 using ShoppingMongo.Services.CsutomerServices;
 using ShoppingMongo.Services.ProductServices;
@@ -46,6 +49,8 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
     return new MongoClient(connectionString);
 });
 
+builder.Services.Configure<MailSetting>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddScoped<EmailSenderService>();
 
 builder.Services.AddControllersWithViews();
 
