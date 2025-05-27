@@ -1,0 +1,176 @@
+﻿@model ShoppingMongo.Dtos.ProductDos.GetProductByIdDto
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@Model.ProductName</title>
+    <link rel="stylesheet" href="/cozastore-master/css/main.css" />
+    <link rel="stylesheet" href="/cozastore-master/vendor/slick/slick.css" />
+    <script src="/cozastore-master/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/cozastore-master/vendor/slick/slick.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body class="animsition">
+
+    <div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
+        <div class="overlay-modal1 js-hide-modal1"></div>
+
+        <div class="container">
+            <div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+                <button class="how-pos3 hov3 trans-04 js-hide-modal1">
+                    <img src="/cozastore-master/images/icons/icon-close.png" alt="CLOSE">
+                </button>
+
+                <div class="row">
+                    <!-- Left: Product Images -->
+                    <div class="col-md-6 col-lg-7 p-b-30">
+                        <div class="p-l-25 p-r-30 p-lr-0-lg">
+                            <div class="wrap-slick3 flex-sb flex-w">
+                                <div class="wrap-slick3-dots"></div>
+                                <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+                                <div class="slick3 gallery-lb">
+                                    @foreach (var imageUrl in Model.ImageUrls)
+                                    {
+                                        <div class="item-slick3" data-thumb="@imageUrl">
+                                            <div class="wrap-pic-w pos-relative">
+                                                <img src="@imageUrl" alt="IMG-PRODUCT" />
+                                                <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="@imageUrl">
+                                                    <i class="fa fa-expand"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Product Info -->
+                    <div class="col-md-6 col-lg-5 p-b-30">
+                        <div class="p-r-50 p-t-5 p-lr-0-lg">
+                            <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                                @Model.ProductName
+                            </h4>
+
+                            <span class="mtext-106 cl2">
+                                @Model.ProductPrice.ToString("N2") ₺
+                            </span>
+
+                            <p class="stext-102 cl3 p-t-23">
+                                "Buraya açıklama yazılacaktır!"
+                            </p>
+
+                            <!-- Options -->
+                            <div class="p-t-33">
+                                <div class="flex-w flex-r-m p-b-10">
+                                    <div class="size-203 flex-c-m respon6">
+                                        Beden
+                                    </div>
+                                    <div class="size-204 respon6-next">
+                                        <div class="rs1-select2 bor8 bg0">
+                                            <select class="js-select2" name="size">
+                                                <option>Bir beden seçin</option>
+                                                <option>S Beden</option>
+                                                <option>M Beden</option>
+                                                <option>L Beden</option>
+                                                <option>XL Beden</option>
+                                            </select>
+                                            <div class="dropDownSelect2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex-w flex-r-m p-b-10">
+                                    <div class="size-203 flex-c-m respon6">
+                                        Renk
+                                    </div>
+                                    <div class="size-204 respon6-next">
+                                        <div class="rs1-select2 bor8 bg0">
+                                            <select class="js-select2" name="color">
+                                                <option>Bir renk seçin</option>
+                                                <option>Kırmızı</option>
+                                                <option>Mavi</option>
+                                                <option>Beyaz</option>
+                                                <option>Gri</option>
+                                                <option>Siyah</option>
+                                            </select>
+                                            <div class="dropDownSelect2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex-w flex-r-m p-b-10">
+                                    <div class="size-204 flex-w flex-m respon6-next">
+                                        <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                <i class="fs-16 zmdi zmdi-minus"></i>
+                                            </div>
+
+                                            <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1" />
+
+                                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                <i class="fs-16 zmdi zmdi-plus"></i>
+                                            </div>
+                                        </div>
+
+                                        <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                            Sepete Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Social -->
+                            <div class="flex-w flex-m p-l-100 p-t-40 respon7">
+                                <div class="flex-m bor9 p-r-10 m-r-11">
+                                    <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+                                        <i class="zmdi zmdi-favorite"></i>
+                                    </a>
+                                </div>
+
+                                <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+
+                                <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+
+                                <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
+                                    <i class="fa fa-google-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.wrap-slick3').each(function () {
+            $(this).find('.slick3').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                fade: true,
+                infinite: true,
+                autoplay: false,
+                autoplaySpeed: 6000,
+                arrows: true,
+                appendArrows: $(this).find('.wrap-slick3-arrows'),
+                prevArrow: '<button class="arrow-slick3 prev-slick3"><i class="fa fa-angle-left" aria-hidden="true"></i></button>',
+                nextArrow: '<button class="arrow-slick3 next-slick3"><i class="fa fa-angle-right" aria-hidden="true"></i></button>',
+                dots: true,
+                appendDots: $(this).find('.wrap-slick3-dots'),
+                dotsClass: 'slick3-dots',
+                customPaging: function (slick, index) {
+                    var portrait = $(slick.$slides[index]).data('thumb');
+                    return '<img src="' + portrait + '" /><div class="slick3-dot-overlay"></div>';
+                },
+            });
+        });
+    </script>
+</body>
+</html>

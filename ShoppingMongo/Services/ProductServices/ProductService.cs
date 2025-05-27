@@ -72,5 +72,10 @@ namespace ShoppingMongo.Services.ProductServices
             var values = await _productColletion.Find(x => true).ToListAsync();
             return _mapper.Map<List<ResultProductDto>>(values);
         }
+
+        public Task<GetProductByIdDto> GetByIdAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

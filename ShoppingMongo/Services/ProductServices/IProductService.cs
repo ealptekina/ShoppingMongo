@@ -43,5 +43,6 @@ namespace ShoppingMongo.Services.ProductServices
         Task<GetProductByIdDto> GetProductByIdAsync(string id);
         Task<List<ResultProductDto>> GetProductsByCategoryNameAsync(string categoryName);
         Task<List<ResultProductDto>> GetAllAsync();
+        Task<GetProductByIdDto> GetByIdAsync(string id);
     }
 }
